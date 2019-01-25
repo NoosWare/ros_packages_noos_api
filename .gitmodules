@@ -1,0 +1,3 @@
+[submodule "noos_api/noos-api-cpp"]
+	path = noos_api/noos-api-cpp
+	url = https://github.com/NoosWare/noos-api-cpp.git
