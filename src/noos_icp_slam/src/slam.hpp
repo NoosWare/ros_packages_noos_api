@@ -1,10 +1,10 @@
 #ifndef SLAM_HPP
 #define SLAM_HPP
 #include "includes.ihh"
+#include "noos_bridge.hpp"
 
-#define M_PIf 3.14159265358979f
+//using namespace noos::cloud;
 
-using namespace noos::cloud;
 /**
  * @brief Send laser data to the Noos Cloud and
  *        publish the position of the robot
@@ -17,7 +17,8 @@ class slam
 {
 public:
     /// @brief constructor
-    slam();
+    slam(noos::cloud::platform plat,
+         ros::NodeHandle & n);
 
     /// @brief read laser data
     void read_laser(const sensor_msgs::LaserScan::ConstPtr & scan);
@@ -30,10 +31,12 @@ private:
     //Callback
     void callback(noos::object::pose<float> pose3d);
     //Callable object
-    callable<icp_slam, true> callab_;
+    noos::cloud::callable<noos::cloud::icp_slam, true> callab_;
     //Count time between calls
     double t_begin_;
     double t_savemap_;
+    //ros publisher
+    ros::Publisher pub_;
 
 };
 
@@ -49,20 +52,16 @@ class send_icp_file
 {
 public:
     /// @brief constructor
-    send_icp_file(platform plat,
+    send_icp_file(noos::cloud::platform plat,
                   std::string config_file);
 
 private:
     //callback required
     void config_callback(bool success);
-
-    //callable object
-    callable<upload_slam_config_file> config_callable_;
-    //platform
-    platform node_;
     //configuration file
     noos::object::config_file config_;
-
+    //callable object
+    noos::cloud::callable<noos::cloud::upload_slam_config_file> config_callable_;
 };
 
 #endif

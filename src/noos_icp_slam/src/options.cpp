@@ -10,7 +10,7 @@ const std::vector<std::string> options::sections_ = {"platform.address",
                                                       "platform.user",
                                                       "platform.pass"};
 
-const std::string default_file = "config/platform.ini";
+const std::string options::default_file = "config/platform.ini";
    
 void check_files::operator()(const std::string filename)
 {
@@ -40,7 +40,8 @@ boost::program_options::options_description options::description() const
     boost::program_options::options_description config_opt("Mario configuration data:");
     config_opt.add_options()
         ("platform, p", boost::program_options::value<std::string>()->default_value("config/platform.ini"), "platform data file")
-        ("icp, i", boost::program_options::value<std::string>(), "icp configuration file");
+        ("loaded, l", boost::program_options::value<bool>()->default_value(false), "Boolean to indicate if the icp file has been loaded previously")
+        ("icp, i", boost::program_options::value<std::string>()->default_value("config/icp.ini"), "icp configuration file");
     boost::program_options::options_description visible("-- ROS Noos ICP SLAM options --");
     visible.add_options()("help,h", "see help");
     visible.add(config_opt);
@@ -51,7 +52,7 @@ boost::program_options::options_description options::description() const
 noos::cloud::platform options::read() 
 {
     noos::cloud::platform node;
-	std::string config_file;
+	std::string config_file = default_file;
 	for (const auto key : options_) {
         if (vm.count(key) && key == "platform") {
             config_file = vm[key].as<std::string>(); 
@@ -59,24 +60,36 @@ noos::cloud::platform options::read()
         }
 		else if (vm.count(key) && key == "icp") {
 			icp_data_.config_file = vm[key].as<std::string>();
-			check_files()(icp_file);
+			check_files()(icp_data_.config_file);
 		}
+		else if (vm.count(key) && key == "loaded") {
+            icp_data_.loaded = vm[key].as<bool>();
+        }
     }
-    read_file(node);
-    if (icp_data_.config_file.empty()) {
-        icp_data_.loaded = true;
-    }
+    read_file(node, config_file);
     return node;
 }
 
-void options::read_file(noos::cloud::platform & node)
+icp_args options::get_icp_data()
+{
+    return icp_data_;
+}
+
+void options::read_file(noos::cloud::platform & node,
+                        std::string config_file)
 {
     boost::property_tree::ptree pt;
-    boost::property_tree::ini_parser::read_ini(args.mario_file, pt);
+    boost::property_tree::ini_parser::read_ini(config_file, pt);
 
     node.address = pt.get(sections_.at(0), "demo.noos.cloud");
     node.port = pt.get(sections_.at(1), "9001");
-    node.user = pt.get(sections_.at(2));
-    node.token = pt.get(sections_.at(3));
+    node.user = pt.get<std::string>(sections_.at(2));
+    node.token = pt.get<std::string>(sections_.at(3));
+}
 
+void options::check_number_args(const int argc, bool help)
+{
+    if (argc == 1 || (argc == 2 && help)) {
+        std::cout << "WARNING: No configuration arguments added. Default configuration is going to be loaded\r\n" << std::endl;
+    }
 }

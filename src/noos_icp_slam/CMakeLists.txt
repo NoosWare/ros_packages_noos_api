@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(slam)
+project(icp_slam)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -10,33 +10,39 @@ find_package(catkin REQUIRED COMPONENTS
   std_msgs
   message_generation 
   sensor_msgs
+  geometry_msgs
 )
 
-catkin_package(
-               CATKIN_DEPENDS roscpp std_msgs message_runtime sensor_msgs
-              )
-set(NOOS_INCLUDE "/home/ort/noos-api-cpp/")
-find_library(NOOS_LIBRARY NAMES noos REQUIRED PATHS "/home/ort/noos-api-cpp/build/")
-message(STATUS "${NOOS_LIBRARY}")
+find_package(Boost COMPONENTS system program_options REQUIRED)
+find_package(noos REQUIRED)
+if (NOT NOOS_LIBRARIES)
+    message(FATAL_ERROR "No NOOS library found")
+endif()
+message(STATUS "${NOOS_LIBRARIES}")
 find_package(OpenSSL REQUIRED)
-find_package(Boost COMPONENTS system REQUIRED)
 find_package(Threads REQUIRED)
 
-set(NOOS_LIBRARIES ${NOOS_LIBRARY} 
-                   ${OPENSSL_LIBRARIES} 
-                   ${Boost_LIBRARIES}
-                   ${CMAKE_THREAD_LIBS_INIT})
+catkin_package(
+               CATKIN_DEPENDS roscpp std_msgs message_runtime sensor_msgs geometry_msgs
+              )
+
+set(NOOS_LIBRARIES_PACK ${NOOS_LIBRARIES} 
+                        ${OPENSSL_LIBRARIES} 
+                        ${Boost_LIBRARIES}
+                        ${CMAKE_THREAD_LIBS_INIT})
 
 include_directories(${catkin_INCLUDE_DIRS} 
-                    ${NOOS_INCLUDE}
+                    ${NOOS_INCLUDE_DIRS}
                    )
 
 add_executable(${PROJECT_NAME}_node src/main.cpp
                                     src/slam.cpp
+                                    src/options.cpp
+                                    src/noos_bridge.cpp
 		      )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}-std=gnu++1y -Wall -s -O3 -mtune=native -Wno-write-strings -Wno-narrowing")
 target_link_libraries(${PROJECT_NAME}_node 
                       ${catkin_LIBRARIES}
-                      ${NOOS_LIBRARIES}
+                      ${NOOS_LIBRARIES_PACK}
                       )

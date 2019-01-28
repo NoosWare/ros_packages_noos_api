@@ -47,9 +47,16 @@ public:
     /// @return description of the options given
     boost::program_options::options_description description() const;
 
+    /// @return icp arguments 
+    icp_args get_icp_data();
+
 protected:
     /// @brief read data from filter file
-    void read_file(noos::cloud::platform & node);
+    void read_file(noos::cloud::platform & node,
+                   std::string config_file);
+
+    /// @brief check the number of arguments received
+    void check_number_args(const int argc, bool help);
 
 private:
     ///options given by user

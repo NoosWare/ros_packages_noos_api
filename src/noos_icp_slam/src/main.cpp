@@ -5,17 +5,23 @@
 
 int main(int argc, char **argv)
 {
-	using namespace noos::cloud;
     /* First send the config file */
-
+    options opt(argc, argv);
+    auto noos_plat = opt.read();
+    auto arguments = opt.get_icp_data();
+    std::cout << std::boolalpha << arguments.loaded << " " << arguments.config_file << std::endl;
+    if (!arguments.loaded) {
+        send_icp_file send_file(noos_plat, arguments.config_file);
+    }
+	
 	/* SLAM*/
 	ros::init(argc, argv, "icp_slam");
 	ros::NodeHandle n;
 
 	ros::Rate loop_rate(1);
-	slam slam_obj;
+    slam slam_obj(noos_plat, n);
 
-	// "/scan" is for RPLIDAR messages
+	// "/scan" is for Laser messages
 	ros::Subscriber sub = n.subscribe<sensor_msgs::LaserScan>("/scan", 1000, &slam::read_laser, &slam_obj);
 
 	ros::spin();

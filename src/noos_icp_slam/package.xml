@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>slam</name>
-  <version>0.0.0</version>
-  <description>The slam package</description>
+  <name>icp_slam</name>
+  <version>0.1.0</version>
+  <description>The ICP slam package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->
@@ -51,6 +51,7 @@
   <run_depend>std_msgs</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>message_runtime</run_depend>
+  <run_depend>geometry_msgs</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
