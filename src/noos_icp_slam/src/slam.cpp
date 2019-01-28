@@ -6,7 +6,8 @@ slam::slam(noos::cloud::platform plat,
            plat,
            "icp_map", "icp.ini", noos::object::laser()),
   t_begin_(ros::Time::now().toSec()),
-  pub_(n.advertise<geometry_msgs::Pose>("pose", 1000))
+  pub_(n.advertise<geometry_msgs::Pose>("pose", 1000)),
+  map_(plat, "icp_map")
 {}
 
 void slam::read_laser(const sensor_msgs::LaserScan::ConstPtr & scan)
@@ -20,10 +21,10 @@ void slam::read_laser(const sensor_msgs::LaserScan::ConstPtr & scan)
         assert(scan);
         if (scan) { 
             auto obs = laser_to_noos()(scan);    
-            //
             //Now the laser object is complete, its data can be 
             //sent to the platform.
             process_data(obs);
+            map_.get_map();
         }
         else {
             std::cout << "No laser data" << std::endl;
@@ -72,4 +73,30 @@ void send_icp_file::config_callback(bool success)
         throw std::runtime_error("Error uploading config file to the cloud");
     }
     std::cout << std::boolalpha << success << std::endl;
+}
+
+receive_map::receive_map(noos::cloud::platform plat,
+                         std::string map_name)
+: callab_(std::bind(&receive_map::callback, this, std::placeholders::_1),
+          plat,
+          map_name),
+  t_savemap_(ros::Time::now().toSec())
+{}
+
+void receive_map::callback(bool success)
+{
+    if (success) {
+        std::cout << "Map downloaded correctly" << std::endl;
+    }
+    else {
+        std::cout << "Map couldn't be downloaded" << std::endl;
+    }
+}
+
+void receive_map::get_map()
+{
+    if (ros::Time::now().toSec() - t_savemap_ > 20) {
+        callab_.send();
+        t_savemap_ = ros::Time::now().toSec();
+    }
 }

@@ -9,7 +9,6 @@ int main(int argc, char **argv)
     options opt(argc, argv);
     auto noos_plat = opt.read();
     auto arguments = opt.get_icp_data();
-    std::cout << std::boolalpha << arguments.loaded << " " << arguments.config_file << std::endl;
     if (!arguments.loaded) {
         send_icp_file send_file(noos_plat, arguments.config_file);
     }

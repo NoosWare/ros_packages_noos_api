@@ -3,7 +3,32 @@
 #include "includes.ihh"
 #include "noos_bridge.hpp"
 
-//using namespace noos::cloud;
+/**
+ * @brief Receive maps from the cloud
+ * @class receive_map 
+ * @date 28.01.2019
+ * @version 0.1.0
+ * @author Maria Ramos
+ */
+class receive_map
+{
+public:
+    /// @brief constructor
+    receive_map(noos::cloud::platform plat,
+                std::string map_name);
+
+    ///@brief ask for map
+    void get_map();
+
+private:
+    //callback required
+    void callback(bool success);
+    //callable object
+    noos::cloud::callable<noos::cloud::get_map> callab_;
+    //Time to save map
+    double t_savemap_;
+};
+
 
 /**
  * @brief Send laser data to the Noos Cloud and
@@ -34,9 +59,10 @@ private:
     noos::cloud::callable<noos::cloud::icp_slam, true> callab_;
     //Count time between calls
     double t_begin_;
-    double t_savemap_;
     //ros publisher
     ros::Publisher pub_;
+    //Get map callable
+    receive_map map_;
 
 };
 
