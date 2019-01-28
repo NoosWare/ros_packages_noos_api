@@ -2,6 +2,8 @@
 
 Ros packages to interact with [Noos Cloud](https://noos.cloud)
 
+<img src="https://github.com/NoosWare/List_repositories/blob/master/images/Noos.png" width="200" height="120" />
+
 ## Installation
 
 ```bash
