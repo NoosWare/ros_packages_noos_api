@@ -35,6 +35,9 @@ Before running any package, it is needed to fill the file `config/platform.ini`
 with your correct user and password of the Noos Cloud platform. If you don't have one,
 register [here](https://noos.cloud/).
 
+They are independent between them, so you can add the package that you need to your workspace
+in case you don't want to build all of them, or you don't have installed all the dependencies.
+
 ### ICP Slam
 
 You will create a map of the enviroment, receiving the topic `/scan` (`sensor_msgs::LaserScan::ConstPtr`) 
@@ -57,3 +60,48 @@ If you need to change one or more do the following:
 ```bash
 rosrun icp_slam icp_slam_node args --icp your_path/icp_file.ini --platform your_path/configuration_file.ini --loaded true
 ```
+
+### Chatbot
+
+You can have a conversation with the chatbot sending sentences through the topic `talker` and the answer will be 
+published in `chatter` topic.
+
+```bash 
+rosrun chatbot chatbot_node
+```
+
+### Face Detection
+
+It will detect faces on images. The images can be sent to the node with a `topic` of your election (it just need to send 
+`sensor_msgs::Image` type) or taking images from the webcam directly.
+
+In the first case, the name of the topic needs to be known by the node:
+
+```bash
+rosrun face_detection face_detection --topic your_topic_name
+```
+
+If you prefer to use a webcam:
+
+```bash 
+rosrun face_detection face_detection_node
+```
+
+It will publish the location of the faces in the image with custom ros message `faces` in the topic `/faces`:
+
+- face.msg
+
+```bash
+float32 top_left_x
+float32 top_left_y
+float32 bottom_right_x
+float32 bottom_right_y
+```
+
+- faces.msg
+
+```bash 
+face[] data
+```
+
+
