@@ -13,9 +13,7 @@
 #include <sensor_msgs/image_encodings.h>
 #include <cv_bridge/cv_bridge.h>
 
-#include "face_detection/face.h"
-#include "face_detection/faces.h"
-#include "face_detection/faces_cropped.h"
+#include "vision_bacth/faces_cropped.h"
 
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include <boost/lexical_cast.hpp>

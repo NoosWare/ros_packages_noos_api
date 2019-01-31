@@ -27,4 +27,16 @@ struct face_convert2ros
     face_detection::face operator()(noos::object::face noos_f);
 };
 
+/**
+ * @struct mat2ros_image
+ * @brief convert cv::Mat to sensor_msgs::Image
+ * @version 31.01.2019
+ * @version 0.1.0
+ */
+struct mat2ros_image
+{
+    sensor_msgs::Image operator()(cv::Mat img,
+                                  int counter);
+};
+
 #endif

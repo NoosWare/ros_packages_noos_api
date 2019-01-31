@@ -1,5 +1,12 @@
 #include "noos_bridge.hpp"
 
+void batch_data::clean()
+{
+    age.clean();
+    gender.clean();
+    expression.clean();
+}
+
 noos::object::picture mat_to_picture::operator()(cv::Mat img)
 {
     std::vector<unsigned char> buf;
@@ -33,4 +40,16 @@ sensor_msgs::Image mat2ros_image::operator()(cv::Mat img,
     out_msg = cv_bridge::CvImage(header, sensor_msgs::image_encodings::BGR8, img);
     out_msg.toImageMsg(img_msg);
     return img_msg;
+}
+
+vision_batch::pair_vector data2pair_vector::operator()(std::vector<std::pair<std::string, float>> data)
+{
+    vision_batch::pair_vector msg;
+    for (auto each_pair : data) {
+        vision_batch::pair custom_pair;
+        custom_pair.probability = each_pair.second;
+        custom_pair.data = each_pair.first;
+        msg.pairs.push_back(custom_pair);
+    }  
+    return msg;
 }

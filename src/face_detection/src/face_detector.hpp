@@ -18,15 +18,21 @@ public:
                   ros::NodeHandle node);
 
     ///@brief call the service detect faces
-    void detect(const noos::object::picture & pic);
+    void detect(const cv::Mat & pict);
 
 private:
     //Callback
     void callback(std::vector<noos::object::face> faces);
     //Callable object
     noos::cloud::callable<noos::cloud::face_detection, true> callable_;
-    //Publisher
+    //Publisher of the rectangles of faces
     ros::Publisher pub_;
+    //Publisher of the image cropped
+    ros::Publisher pub_img_;
+    //frame_id
+    int counter_ = 0;
+    //cv::Mat image
+    cv::Mat image_;
 };
 
 /**

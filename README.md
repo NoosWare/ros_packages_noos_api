@@ -92,7 +92,8 @@ If you prefer to use a webcam:
 rosrun face_detection face_detection_node
 ```
 
-It will publish the location of the faces in the image with custom ros message `faces` in the topic `/faces`:
+It will publish the location of the faces in the image with custom ros message `faces` in the topic `/faces`
+and the face cropped from the image (in the case you don't have access to the original image) in the topic `/faces_cropped`:
 
 - face.msg
 
@@ -107,6 +108,13 @@ float32 bottom_right_y
 
 ```bash 
 face[] data
+```
+
+- faces_cropped.msg
+
+```bash 
+Header header
+sensor_msgs/Image[] data 
 ```
 
 

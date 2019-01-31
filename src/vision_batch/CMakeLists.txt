@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(face_detection)
+project(vision_batch)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -12,9 +12,10 @@ find_package(catkin REQUIRED COMPONENTS
 
 ## Generate messages in the 'msg' folder
 add_message_files(DIRECTORY msg FILES
-                  face.msg
-                  faces.msg
                   faces_cropped.msg
+                  batch.msg
+                  pair.msg
+                  pair_vector.msg
 )
 
 generate_messages(
@@ -50,7 +51,7 @@ include_directories(${catkin_INCLUDE_DIRS}
                    )
 
 add_executable(${PROJECT_NAME}_node src/main.cpp
-                                    src/face_detector.cpp
+                                    src/vision_batch.cpp
                                     src/noos_bridge.cpp
                                     src/options.cpp
 		      )
