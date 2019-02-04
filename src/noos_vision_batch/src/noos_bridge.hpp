@@ -16,7 +16,11 @@ struct batch_data
     std::vector<std::pair<std::string,float>> gender;
     std::vector<std::pair<std::string,float>> expression;
 
+    ///@brief clean all data
     void clean();
+
+    ///@brief check all vectors have been filled
+    bool check_all_filled();
 };
 
 /**
@@ -30,17 +34,6 @@ struct batch_data
 struct mat_to_picture
 {
     noos::object::picture operator()(cv::Mat img);
-};
-
-/**
- * @struct face_convert2ros
- * @brief convert a noos::object::face to a face_detection::face msg
- * @version 0.1.0
- * @date 30.01.2019
- */
-struct face_convert2ros
-{
-    face_detection::face operator()(noos::object::face noos_f);
 };
 
 /**
@@ -64,7 +57,7 @@ struct mat2ros_image
  */
 struct data2pair_vector
 {
-    vision_batch::pair_vector operator()(std::vector<std::pair<std::string, float>> data);
+    noos_vision_batch::pair_vector operator()(std::vector<std::pair<std::string, float>> data);
 };
 
 /**
@@ -75,9 +68,10 @@ struct data2pair_vector
  */
 struct pair_vector2batch
 {
-    vision_batch::batch operator()(vision_batch::pair_vector age,
-                                   vision_batch::pair_vector gender,
-                                   vision_batch::pair_vector expression);
+    noos_vision_batch::batch operator()(int face_number, 
+                                        noos_vision_batch::pair_vector age,
+                                        noos_vision_batch::pair_vector gender,
+                                        noos_vision_batch::pair_vector expression);
 };
 
 #endif

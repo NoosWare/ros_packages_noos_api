@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(vision_batch)
+project(noos_vision_batch)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -51,7 +51,7 @@ include_directories(${catkin_INCLUDE_DIRS}
                    )
 
 add_executable(${PROJECT_NAME}_node src/main.cpp
-                                    src/vision_batch.cpp
+                                    src/vision_batch_wrapper.cpp
                                     src/noos_bridge.cpp
                                     src/options.cpp
 		      )

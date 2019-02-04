@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>vision_batch</name>
+  <name>noos_vision_batch</name>
   <version>0.1.0</version>
   <description>The face_detection package</description>
 

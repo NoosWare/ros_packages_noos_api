@@ -117,4 +117,77 @@ Header header
 sensor_msgs/Image[] data 
 ```
 
+### Vision Batch
+
+Given a cropped face, it will send back the age, gender and facial expression of that face.
+The node is subscribed to a topic given (using the option --topic your_name_topic), and 
+it required a `face_cropped` image, which is:
+
+```bash 
+Header header
+sensor_msgs/Image[] data 
+```
+
+The result is given in a `batch.msg`:
+
+```bash 
+int32 face_number
+pair_vector age
+pair_vector gender
+pair_vector expressions
+```
+
+- pair_vector.msg
+
+```bash
+pair[] pairs
+```
+
+- pair.msg
+
+```bash
+float32 probability
+string data
+```
+
+Example of the data:
+
+```bash
+face_number: 20
+age:
+  pairs:
+    -
+      probability: 0.872070670128
+      data: "20-30"
+    -
+      probability: 0.1253926754
+      data: "30-46"
+gender:
+  pairs:
+    -
+      probability: 0.997378945351
+      data: "female"
+expressions:
+  pairs:
+    -
+      probability: 0.780185818672
+      data: "fear"
+    -
+      probability: 0.155177041888
+      data: "neutral"
+---
+```
+
+**To run the node:**
+
+```bash
+rosrun noos_vision_batch noos_vision_batch_node --topic name_of_your_topic
+```
+
+If you want to test it, you can use `face_detection_node` as image creator. So after running that node,
+use the following line to run vision_batch:
+
+```bash
+rosrun noos_vision_batch noos_vision_batch_node --topic faces_cropped
+```
 
