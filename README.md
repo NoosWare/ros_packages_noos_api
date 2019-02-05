@@ -191,3 +191,66 @@ use the following line to run vision_batch:
 rosrun noos_vision_batch noos_vision_batch_node --topic faces_cropped
 ```
 
+### Object Recognition
+
+It will detect the object in the image. The images can be sent to the node with a `topic` of your election (it just need to send 
+`sensor_msgs::Image` type) or taking images from the webcam directly.
+
+In the first case, the name of the topic needs to be known by the node:
+
+```bash
+rosrun noos_obj_recognition noos_obj_recognition --topic your_topic_name
+```
+
+If you prefer to use a webcam:
+
+```bash 
+rosrun noos_obj_recognition noos_obj_recognition_node
+```
+
+It will publish a `pair_vector` msg with the object and the probability.
+
+- pair_vector.msg
+
+```bash
+pair[] pairs
+```
+
+- pair.msg
+
+```bash
+float32 probability
+string data
+```
+
+Example of the result obtained:
+
+```bash
+pairs:
+  -
+    probability: 0.0327134691179
+    data: "bucket, pail"
+  -
+    probability: 0.0266536492854
+    data: "coffee mug"
+  -
+    probability: 0.0419563986361
+    data: "coffeepot"
+  -
+    probability: 0.0197438318282
+    data: "hair spray"
+  -
+    probability: 0.036662440747
+    data: "lighter, light, igniter, ignitor"
+  -
+    probability: 0.0375811494887
+    data: "lipstick, lip rouge"
+  -
+    probability: 0.0140977697447
+    data: "maraca"
+  -
+    probability: 0.0309944115579
+    data: "paintbrush"
+```
+
+
