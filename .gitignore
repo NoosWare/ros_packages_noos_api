@@ -36,3 +36,7 @@
 
 build/
 devel/
+
+*.png
+*.jpg
+*.jpeg
