@@ -91,7 +91,5 @@ cv::Mat read_image::get_image()
         topic_ == "none") {
         take_opencv_image();
     }
-    auto copy = image_;
-    image_.release();
-    return copy;
+    return image_;
 }
