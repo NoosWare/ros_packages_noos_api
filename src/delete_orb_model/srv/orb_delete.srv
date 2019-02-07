@@ -1,0 +1,6 @@
+#orb_delete service
+
+string platform
+string model
+---
+bool result

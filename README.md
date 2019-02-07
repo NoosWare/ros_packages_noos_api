@@ -253,4 +253,38 @@ pairs:
     data: "paintbrush"
 ```
 
+### ORB
 
+It will detect a model given in an image. The images can be sent to the node with a `topic` of your election (it just need to send 
+`sensor_msgs::Image` type) or taking images from the webcam directly.
+
+This node requires a few parameters:
+- loaded (boolean): If the model has been uploaded to the cloud already or not. So you don't have to upload the model all the time.
+- filename (std::string): Name of the filename of the model. It is always required because the cloud needs the name of the model uploaded to 
+            calculate the keypoints.
+- threshold (float): Minimum distance between keypoints. If the threshold is too high, it will return too many keypoints and noise.
+
+To run the node with a webcam:
+
+```bash
+rosrun noos_orb noos_orb_node --loaded false --filename your_file.jpg --threshold 80.0
+```
+
+To run the node subscribing to your topic:
+
+```bash
+rosrun noos_orb noos_orb_node --loaded false --filename your_file.jpg --threshold 80.0 --topic name_of_topic
+```
+
+The result will a `point_array.msg` (custom msg):
+
+- point_array.msg
+
+```bash
+geometry_msgs/Point32[] points
+```
+
+### Delete ORB model
+
+It is a `service`, not a `topic`.
+TODO
