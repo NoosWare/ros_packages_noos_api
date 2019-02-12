@@ -339,3 +339,79 @@ You can create your own client service. Also you can use the test client created
 ```bash
 rosrun delete_orb_model delete_orb_model_test your_model_name.extension platform_file
 ```
+
+### Human Detection
+
+It will detect humans on images. The images can be sent to the node with a `topic` of your election (it just need to send 
+`sensor_msgs::Image` type) or taking images from the webcam directly.
+
+In the first case, the name of the topic needs to be known by the node:
+
+```bash
+rosrun human_detection human_detection --topic your_topic_name
+```
+
+If you prefer to use a webcam:
+
+```bash 
+rosrun human_detection human_detection_node
+```
+
+It will publish the location of the humans in the image with custom ros message `humans` in the topic `/humans`
+and the human cropped from the image (in the case you don't have access to the original image) in the topic `/humans_cropped`:
+
+- human.msg
+
+```bash
+float32 top_left_x
+float32 top_left_y
+float32 bottom_right_x
+float32 bottom_right_y
+```
+
+- humans.msg
+
+```bash 
+human[] data
+```
+
+- humans_cropped.msg
+
+```bash 
+Header header
+sensor_msgs/Image[] data 
+```
+
+### QR Recognition
+
+It will detect qrs on images. The images can be sent to the node with a `topic` of your election (it just need to send 
+`sensor_msgs::Image` type) or taking images from the webcam directly.
+
+In the first case, the name of the topic needs to be known by the node:
+
+```bash
+rosrun qr_detection qr_detection --topic your_topic_name
+```
+
+If you prefer to use a webcam:
+
+```bash 
+rosrun qr_detection qr_detection_node
+```
+
+It will publish the location of the qrs in the image with custom ros message `qrs` in the topic `/qrs`:
+
+- qr.msg
+
+```bash
+float32 center_x
+float32 center_y
+string message
+```
+
+- qrs.msg
+
+```bash 
+qr[] data
+```
+

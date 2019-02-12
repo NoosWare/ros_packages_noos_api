@@ -1,0 +1,23 @@
+#include <noos/noos>
+#include <iostream>
+#include <vector>
+#include <string>
+
+#include "opencv2/opencv.hpp"
+#include <opencv2/imgproc/imgproc.hpp>
+
+#include <ros/ros.h>
+#include <std_msgs/String.h>
+#include <std_msgs/Float32.h>
+#include <sensor_msgs/Image.h>
+#include <sensor_msgs/image_encodings.h>
+#include <cv_bridge/cv_bridge.h>
+
+#include "qr_detection/qr.h"
+#include "qr_detection/qrs.h"
+
+#include "boost/date_time/posix_time/posix_time.hpp"
+#include <boost/lexical_cast.hpp>
+#include <boost/program_options.hpp>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/ini_parser.hpp>
