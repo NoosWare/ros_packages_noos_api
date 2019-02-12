@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(delete_orb_model)
+project(noos_delete_map)
 
 find_package(catkin REQUIRED COMPONENTS
   roscpp
@@ -10,7 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 #Service
 add_service_files(FILES
-                  orb_delete.srv 
+                  map_delete.srv 
 )
 
 generate_messages(

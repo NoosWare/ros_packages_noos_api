@@ -1,0 +1,6 @@
+#map_delete service
+
+string platform
+string map_name
+---
+bool result

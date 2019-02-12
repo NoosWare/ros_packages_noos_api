@@ -66,6 +66,34 @@ If you need to change one or more do the following:
 rosrun icp_slam icp_slam_node args --icp your_path/icp_file.ini --platform your_path/configuration_file.ini --loaded true
 ```
 
+### Delete map
+
+It is a `service`, not a `topic`. It doesn't require to be called constantly.
+The `map_delete.srv` has the following format:
+
+``` bash
+string platform
+string map_name
+---
+bool result
+```
+
+- platform is for the platform configuration file (for example, config/platform.ini). It has to be `ini` file.
+- map_name is the name of the map (for example, `example_map`). **DON'T INCLUDE ANY EXTENSION**
+- result is a boolean saying if the map has been cleaned from the database or not.
+
+To run the service:
+
+```bash
+rosrun noos_delete_map noos_delete_map_node
+```
+
+You can create your own client service. Also you can use the test client created using this command:
+
+```bash
+rosrun noos_delete_map noos_delete_map_test your_map_name platform_file
+```
+
 ### Chatbot
 
 You can have a conversation with the chatbot sending sentences through the topic `talker` and the answer will be 
@@ -286,5 +314,28 @@ geometry_msgs/Point32[] points
 
 ### Delete ORB model
 
-It is a `service`, not a `topic`.
-TODO
+It is a `service`, not a `topic`. It doesn't require to be called constantly.
+The `orb_delete.srv` has the following format:
+
+``` bash
+string platform
+string model
+---
+bool result
+```
+
+- platform is for the platform configuration file (for example, config/platform.ini). It has to be `ini` file.
+- model is the name of the model including the extension (for example, fish.jpg)
+- result is a boolean saying if the model has been cleaned from the database or not.
+
+To run the service:
+
+```bash
+rosrun delete_orb_model delete_orb_model_node
+```
+
+You can create your own client service. Also you can use the test client created using this command:
+
+```bash
+rosrun delete_orb_model delete_orb_model_test your_model_name.extension platform_file
+```
