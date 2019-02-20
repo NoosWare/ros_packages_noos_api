@@ -1,0 +1,10 @@
+#path service
+
+string platform
+string map_name
+float32 robot_radius
+float32 resolution
+geometry_msgs/Pose2D start
+geometry_msgs/Pose2D goal
+---
+geometry_msgs/Point[] result
