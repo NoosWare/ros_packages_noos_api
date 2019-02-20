@@ -66,6 +66,39 @@ If you need to change one or more do the following:
 rosrun icp_slam icp_slam_node args --icp your_path/icp_file.ini --platform your_path/configuration_file.ini --loaded true
 ```
 
+### Path planning
+
+It is a `service`, not a `topic`. It doesn't require to be called constantly.
+This service return a vector of points for guiding your robot in the correct path to achive the goal position.
+
+The `path.srv` has the following format:
+
+``` bash
+string platform
+string map_name
+float32 robot_radius
+float32 resolution
+geometry_msgs/Pose2D start
+geometry_msgs/Pose2D goal
+---
+geometry_msgs/Point[] result
+```
+
+- platform is for the platform configuration file (for example, config/platform.ini). It has to be `ini` file.
+- map_name is the name of the map (for example, `example_map`). **DON'T INCLUDE ANY EXTENSION**
+- robot_radius is the radius of the robot in meters
+- resolution is the resolution of every cell in the map. It is one of the parameters of the icp.ini config file.
+  If you use the one that we have as a example, this value is `0.05` meters.
+- start is the position where we want to start the path.
+- goal is the final position where we want to go.
+- result is a vector of points (with no angle data), that your robot needs to follow to achive the goal position.
+
+To run the service:
+
+```bash
+rosrun noos_path_planning noos_path_planning_node
+```
+
 ### Delete map
 
 It is a `service`, not a `topic`. It doesn't require to be called constantly.
