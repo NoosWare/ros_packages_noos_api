@@ -43,7 +43,8 @@ in case you don't want to build all of them, or you don't have installed all the
 ### ICP Slam
 
 You will create a map of the enviroment, receiving the topic `/scan` (`sensor_msgs::LaserScan::ConstPtr`) 
-the cloud will publish the pose of the robot in the topic `pose` (`geometry_msgs::Pose`).
+the cloud will publish the pose of the robot in the topic `pose` (`geometry_msgs::Pose`) and
+`pose2d` (`geometry_msgs::Pose2D`).
 
 The Noos Cloud needs a configuration file with the parameters about icp, for creating the map.
 An example can be found in `/config/icp.ini`. It is the default file that will be loaded.
