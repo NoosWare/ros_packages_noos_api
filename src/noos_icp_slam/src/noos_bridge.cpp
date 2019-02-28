@@ -36,6 +36,16 @@ geometry_msgs::Pose noos_to_ros_pose::operator()(noos::object::pose<float> pos)
 	return result;
 }
 
+geometry_msgs::Pose2D noos_to_ros_pose2d::operator()(noos::object::pose<float> pos)
+{
+    geometry_msgs::Pose2D result;	
+	result.x = pos.coordinates.x;
+	result.y = pos.coordinates.y;
+    result.theta = pos.angles.yaw;
+
+	return result;
+}
+
 noos::object::laser laser_to_noos::operator()(const sensor_msgs::LaserScan::ConstPtr & scan)
 {
     noos::object::laser obs;

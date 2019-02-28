@@ -7,6 +7,7 @@ slam::slam(noos::cloud::platform plat,
            "icp_map", "icp.ini", noos::object::laser()),
   t_begin_(ros::Time::now().toSec()),
   pub_(n.advertise<geometry_msgs::Pose>("pose", 1000)),
+  pub_2d_(n.advertise<geometry_msgs::Pose2D>("pose2d", 1000)),
   map_(plat, "icp_map")
 {}
 
@@ -48,6 +49,7 @@ void slam::callback(noos::object::pose<float> pose3d)
     //
     std::cout << pose3d;
     pub_.publish(noos_to_ros_pose()(pose3d));
+    pub_2d_.publish(noos_to_ros_pose2d()(pose3d));
     //
     //The time is reset to wait another 100 ms for the next call
     //

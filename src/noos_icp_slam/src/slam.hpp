@@ -61,6 +61,8 @@ private:
     double t_begin_;
     //ros publisher
     ros::Publisher pub_;
+    //ros publisher pose2d
+    ros::Publisher pub_2d_;
     //Get map callable
     receive_map map_;
 

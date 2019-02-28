@@ -40,6 +40,17 @@ struct noos_to_ros_pose
 };
 
 /**
+ * @struct noos_to_ros_pose2d
+ * @brief convert noos::object::pose3d to ros geometry_msgs::Pose2D
+ * @version 0.1.0
+ * @date 28.02.2019
+ */
+struct noos_to_ros_pose2d
+{
+    geometry_msgs::Pose2D operator()(noos::object::pose<float> pos);
+};
+
+/**
  * @struct laser_to_noos
  * @brief convert sensor_msgs::LaserScan::ConstPtr to noos::object::laser
  * @version 0.1.0
