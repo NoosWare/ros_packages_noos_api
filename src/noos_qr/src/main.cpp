@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
                                               &reader);
     }
    
-    ros::Rate loop_rate(0.5);
+    ros::Rate loop_rate(3);
     while (ros::ok()) {
         auto matrix = reader.get_image();
         if (!matrix.empty()) {

@@ -22,12 +22,15 @@ void qr_detector::detect(const cv::Mat & pict)
 
 void qr_detector::callback(std::vector<noos::object::qr_code> qrs)
 {
-    qr_detection::qrs total_qrs;
-    for (auto each_qr : qrs) {
-        total_qrs.data.push_back(qr_convert2ros()(each_qr));
+    if (qrs.size() > 0) {
+        qr_detection::qrs total_qrs;
+        std::cout << qrs.size() << std::endl;
+        for (auto each_qr : qrs) {
+            total_qrs.data.push_back(qr_convert2ros()(each_qr));
+        }
+        pub_.publish(total_qrs);
+        counter_++;
     }
-    pub_.publish(total_qrs);
-    counter_++;
 }
 
 read_image::read_image(ros::NodeHandle node,

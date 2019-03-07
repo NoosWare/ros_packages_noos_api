@@ -13,6 +13,8 @@ catkin_init_workspace
 ```
 
 For building the packages, the [NOOS API](https://github.com/NoosWare/noos-api-cpp) is required.
+Version `0.9.4` or higher.
+
 If you have already installed it, skip this step. If not, do the following:
 
 ```bash
@@ -440,6 +442,7 @@ It will publish the location of the qrs in the image with custom ros message `qr
 ```bash
 float32 center_x
 float32 center_y
+float32 size
 string message
 ```
 

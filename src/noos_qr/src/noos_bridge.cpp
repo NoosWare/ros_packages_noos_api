@@ -14,6 +14,7 @@ qr_detection::qr qr_convert2ros::operator()(noos::object::qr_code noos_qr)
 
     ros_qr.center_x = noos_qr.centre_x;
     ros_qr.center_y = noos_qr.centre_y;
+    ros_qr.size = noos_qr.size;
     ros_qr.message = noos_qr.message;
 
     return ros_qr;
