@@ -24,7 +24,6 @@ void qr_detector::callback(std::vector<noos::object::qr_code> qrs)
 {
     if (qrs.size() > 0) {
         qr_detection::qrs total_qrs;
-        std::cout << qrs.size() << std::endl;
         for (auto each_qr : qrs) {
             total_qrs.data.push_back(qr_convert2ros()(each_qr));
         }
