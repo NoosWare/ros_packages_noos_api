@@ -77,8 +77,8 @@ geometry_msgs/Pose pose
 ```
 
 You need to specify the name of the map you want to create (or use). If nothing is specified the 
-default value will be loaded. As well with the name of the robot. This parameter is not important
-if you are using only one robot.
+default value will be loaded. **DON'T INCLUDE ANY EXTENSION** 
+The same with the name of the robot. This parameter is not important if you are using only one robot.
 
 The Noos Cloud needs a configuration file with the parameters about icp, for creating the map.
 An example can be found in `/config/icp.ini`. It is the default file that will be loaded.
@@ -94,7 +94,7 @@ That command will load the default parameters:
 - `icp config file` = /config/icp.ini
 - `platform file` = /config/platform.ini
 - `loaded` = false  (if the icp config file has been uploaded previously)
-- `map_name` = icp.png
+- `map_name` = icp
 - `robot_name` = robot0
 - `scan_topic` = /scan 
 
