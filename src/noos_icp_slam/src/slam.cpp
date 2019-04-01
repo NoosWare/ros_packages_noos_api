@@ -1,14 +1,17 @@
 #include "slam.hpp"
 
 slam::slam(noos::cloud::platform plat,
-           ros::NodeHandle & n) 
+           ros::NodeHandle & n,
+           icp_args args) 
 : callab_( std::bind(&slam::callback, this, std::placeholders::_1),
            plat,
-           "icp_map", "icp.ini", noos::object::laser()),
+           args.map_name, "icp.ini", noos::object::laser()),
   t_begin_(ros::Time::now().toSec()),
-  pub_(n.advertise<geometry_msgs::Pose>("pose", 1000)),
-  pub_2d_(n.advertise<geometry_msgs::Pose2D>("pose2d", 1000)),
-  map_(plat, "icp_map")
+  pub_(n.advertise<icp_slam::pose3d>("pose", 1000)),
+  pub_2d_(n.advertise<icp_slam::pose2d>("pose2d", 1000)),
+  map_(plat, args.map_name),
+  robot_name_(args.robot_name),
+  map_name_(args.map_name)
 {}
 
 void slam::read_laser(const sensor_msgs::LaserScan::ConstPtr & scan)
@@ -38,7 +41,7 @@ void slam::process_data(noos::object::laser & obs)
     //
     //The object of the class callable is updated with the new laser data.
     //
-    callab_.object = noos::cloud::icp_slam("icp_map", "icp.ini", obs); //map, config, laser
+    callab_.object = noos::cloud::icp_slam(map_name_, "icp.ini", obs); //map, config, laser
     callab_.send();
 }
 
@@ -48,8 +51,8 @@ void slam::callback(noos::object::pose<float> pose3d)
     //The position of the robot in the map is showed
     //
     std::cout << pose3d;
-    pub_.publish(noos_to_ros_pose()(pose3d));
-    pub_2d_.publish(noos_to_ros_pose2d()(pose3d));
+    pub_.publish(noos_to_ros_pose()(pose3d, robot_name_));
+    pub_2d_.publish(noos_to_ros_pose2d()(pose3d, robot_name_));
     //
     //The time is reset to wait another 100 ms for the next call
     //

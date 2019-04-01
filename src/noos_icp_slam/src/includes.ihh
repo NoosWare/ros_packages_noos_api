@@ -1,9 +1,14 @@
 #include <ros/ros.h>
 #include <std_msgs/String.h>
+#include <std_msgs/Header.h>
 #include <geometry_msgs/Pose.h>
 #include <geometry_msgs/Pose2D.h>
 #include <sensor_msgs/LaserScan.h>
+
 #include <noos/noos>
+
+#include "icp_slam/pose2d.h"
+#include "icp_slam/pose3d.h"
 
 #include <chrono>
 #include <iostream>

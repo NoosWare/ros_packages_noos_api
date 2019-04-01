@@ -4,6 +4,20 @@ Ros packages to interact with [Noos Cloud](https://noos.cloud)
 
 <img src="https://github.com/NoosWare/List_repositories/blob/master/images/Noos.png" width="200" height="120" />
 
+- [Installation](#installation)
+- [Packages](#running-packages)
+    - [SLAM](#icp-slam)
+    - [Path planning](#path-planning)
+    - [Delete map](#delete-map)
+    - [Chatbot](#chatbot)
+    - [Face Detection](#face-detection)
+    - [Vision Batch](#vision-batch)
+    - [Object Recognition](#object-recognition)
+    - [ORB](#orb)
+    - [Delete ORB model](#delete-orb-model)
+    - [Human Detection](#human-detection)
+    - [QR Recognition](#qr-recognition)
+
 ## Installation
 
 ```bash
@@ -44,9 +58,27 @@ in case you don't want to build all of them, or you don't have installed all the
 
 ### ICP Slam
 
-You will create a map of the enviroment, receiving the topic `/scan` (`sensor_msgs::LaserScan::ConstPtr`) 
-the cloud will publish the pose of the robot in the topic `pose` (`geometry_msgs::Pose`) and
-`pose2d` (`geometry_msgs::Pose2D`).
+You will create a map of the enviroment, receiving the topic `/scan` (`sensor_msgs::LaserScan::ConstPtr`)
+or the topic name you need in your case, 
+the cloud will publish the pose of the robot in the topic `pose3d` and `pose2d`. Both are custom messages:
+
+```bash 
+#pose2d.msg
+
+std_msgs/Header header
+geometry_msgs/Pose2D pose
+```
+
+```bash 
+#pose3d.msg
+
+std_msgs/Header header
+geometry_msgs/Pose pose
+```
+
+You need to specify the name of the map you want to create (or use). If nothing is specified the 
+default value will be loaded. As well with the name of the robot. This parameter is not important
+if you are using only one robot.
 
 The Noos Cloud needs a configuration file with the parameters about icp, for creating the map.
 An example can be found in `/config/icp.ini`. It is the default file that will be loaded.
@@ -62,11 +94,15 @@ That command will load the default parameters:
 - `icp config file` = /config/icp.ini
 - `platform file` = /config/platform.ini
 - `loaded` = false  (if the icp config file has been uploaded previously)
+- `map_name` = icp.png
+- `robot_name` = robot0
+- `scan_topic` = /scan 
 
 If you need to change one or more do the following:
 
 ```bash
 rosrun icp_slam icp_slam_node args --icp your_path/icp_file.ini --platform your_path/configuration_file.ini --loaded true
+                                   --map_name map --scan_topic scan --robot_name robot
 ```
 
 ### Path planning

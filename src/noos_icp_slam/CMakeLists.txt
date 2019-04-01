@@ -13,6 +13,13 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
 )
 
+add_message_files(DIRECTORY msg FILES
+                  pose2d.msg
+                  pose3d.msg
+                 )
+
+generate_messages(DEPENDENCIES std_msgs geometry_msgs)
+
 find_package(Boost COMPONENTS system program_options REQUIRED)
 find_package(noos REQUIRED)
 if (NOT NOOS_LIBRARIES)
@@ -42,6 +49,8 @@ add_executable(${PROJECT_NAME}_node src/main.cpp
                                     src/options.cpp
                                     src/noos_bridge.cpp
 		      )
+
+add_dependencies(${PROJECT_NAME}_node ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}-std=gnu++1y -Wall -s -O3 -mtune=native -Wno-write-strings -Wno-narrowing")
 target_link_libraries(${PROJECT_NAME}_node 

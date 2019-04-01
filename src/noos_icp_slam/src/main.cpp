@@ -18,10 +18,10 @@ int main(int argc, char **argv)
 	ros::NodeHandle n;
 
 	ros::Rate loop_rate(1);
-    slam slam_obj(noos_plat, n);
+    slam slam_obj(noos_plat, n, arguments);
 
 	// "/scan" is for Laser messages
-	ros::Subscriber sub = n.subscribe<sensor_msgs::LaserScan>("/scan", 1000, &slam::read_laser, &slam_obj);
+	ros::Subscriber sub = n.subscribe<sensor_msgs::LaserScan>(arguments.topic, 1000, &slam::read_laser, &slam_obj);
 
 	ros::spin();
 	loop_rate.sleep(); 

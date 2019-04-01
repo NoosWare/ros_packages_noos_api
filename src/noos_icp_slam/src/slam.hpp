@@ -2,6 +2,7 @@
 #define SLAM_HPP
 #include "includes.ihh"
 #include "noos_bridge.hpp"
+#include "options.hpp"
 
 /**
  * @brief Receive maps from the cloud
@@ -43,7 +44,8 @@ class slam
 public:
     /// @brief constructor
     slam(noos::cloud::platform plat,
-         ros::NodeHandle & n);
+         ros::NodeHandle & n,
+         icp_args args);
 
     /// @brief read laser data
     void read_laser(const sensor_msgs::LaserScan::ConstPtr & scan);
@@ -65,6 +67,10 @@ private:
     ros::Publisher pub_2d_;
     //Get map callable
     receive_map map_;
+    //robot name
+    std::string robot_name_;
+    //map name
+    std::string map_name_;
 
 };
 
@@ -74,7 +80,6 @@ private:
  * @class send_icp_file
  * @date 25.01.2019
  * @version 0.1.0
- * @author Maria Ramos
  */
 class send_icp_file
 {

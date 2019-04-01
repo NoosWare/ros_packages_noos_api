@@ -3,6 +3,9 @@
 const std::vector<std::string> options::options_ = {"platform",
 													"icp",
                                                     "loaded",
+                                                    "robot_name",
+                                                    "scan_topic",
+                                                    "map_name"
                                                     "help"};
 
 const std::vector<std::string> options::sections_ = {"platform.address",
@@ -41,6 +44,8 @@ boost::program_options::options_description options::description() const
     config_opt.add_options()
         ("platform, p", boost::program_options::value<std::string>()->default_value("config/platform.ini"), "platform data file")
         ("loaded, l", boost::program_options::value<bool>()->default_value(false), "Boolean to indicate if the icp file has been loaded previously")
+        ("robot_name, r", boost::program_options::value<std::string>()->default_value("robot0"), "Name of the robot who is doing this SLAM")
+        ("scan_topic, s", boost::program_options::value<std::string>()->default_value("/scan"), "Name of the topic which reads Laser data. /scan by default.")
         ("icp, i", boost::program_options::value<std::string>()->default_value("config/icp.ini"), "icp configuration file");
     boost::program_options::options_description visible("-- ROS Noos ICP SLAM options --");
     visible.add_options()("help,h", "see help");
@@ -65,6 +70,15 @@ noos::cloud::platform options::read()
 		else if (vm.count(key) && key == "loaded") {
             icp_data_.loaded = vm[key].as<bool>();
         }
+		else if (vm.count(key) && key == "robot_name") {
+			icp_data_.robot_name = vm[key].as<std::string>();
+		}
+		else if (vm.count(key) && key == "topic") {
+			icp_data_.topic = vm[key].as<std::string>();
+		}
+        else if (vm.count(key) && key == "map_name") {
+			icp_data_.map_name = vm[key].as<std::string>();
+		}
     }
     read_file(node, config_file);
     return node;

@@ -12,6 +12,9 @@
 struct icp_args
 {
     std::string config_file;
+    std::string robot_name;
+    std::string topic;
+    std::string map_name;
     bool loaded = false;
 };
 

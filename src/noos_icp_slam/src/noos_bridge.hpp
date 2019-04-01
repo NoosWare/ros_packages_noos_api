@@ -36,7 +36,8 @@ struct euler_2_quaternion
  */
 struct noos_to_ros_pose
 {
-    geometry_msgs::Pose operator()(noos::object::pose<float> pos);
+    icp_slam::pose3d operator()(noos::object::pose<float> pos,
+                                std::string frame_id);
 };
 
 /**
@@ -47,7 +48,9 @@ struct noos_to_ros_pose
  */
 struct noos_to_ros_pose2d
 {
-    geometry_msgs::Pose2D operator()(noos::object::pose<float> pos);
+    icp_slam::pose2d operator()(noos::object::pose<float> pos,
+                                std::string frame_id);
+
 };
 
 /**

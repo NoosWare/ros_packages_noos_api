@@ -19,8 +19,13 @@ quaternion euler_2_quaternion::operator()(noos::object::orientation<float> euler
     return q;
 }
 
-geometry_msgs::Pose noos_to_ros_pose::operator()(noos::object::pose<float> pos)
+icp_slam::pose3d noos_to_ros_pose::operator()(noos::object::pose<float> pos,
+											  std::string frame_id)
 {
+	icp_slam::pose3d msg;
+
+	std_msgs::Header header;
+	header.frame_id = frame_id;
     geometry_msgs::Pose result;	
 	result.position.x = pos.coordinates.x;
 	result.position.y = pos.coordinates.y;
@@ -33,17 +38,28 @@ geometry_msgs::Pose noos_to_ros_pose::operator()(noos::object::pose<float> pos)
 	result.orientation.z = q.z;
 	result.orientation.w = q.w;
 
-	return result;
+	msg.pose = result;
+	msg.header = header;
+
+	return msg;
 }
 
-geometry_msgs::Pose2D noos_to_ros_pose2d::operator()(noos::object::pose<float> pos)
+icp_slam::pose2d noos_to_ros_pose2d::operator()(noos::object::pose<float> pos,
+												std::string frame_id)
 {
+	icp_slam::pose2d msg;
+
+	std_msgs::Header header;
+	header.frame_id = frame_id;
     geometry_msgs::Pose2D result;	
 	result.x = pos.coordinates.x;
 	result.y = pos.coordinates.y;
     result.theta = pos.angles.yaw;
+	
+	msg.pose = result;
+	msg.header = header;
 
-	return result;
+	return msg;
 }
 
 noos::object::laser laser_to_noos::operator()(const sensor_msgs::LaserScan::ConstPtr & scan)
