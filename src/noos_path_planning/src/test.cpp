@@ -16,7 +16,7 @@ int main(int argc, char **argv)
   start.theta = 0;
 
   geometry_msgs::Pose2D goal;
-  goal.x = 1;
+  goal.x = 0;
   goal.y = 1;
   goal.theta = 0;
 
@@ -32,8 +32,11 @@ int main(int argc, char **argv)
 
   if (client.call(srv))
   {
-    //ROS_INFO("Map deleted?: %d", (bool)srv.response.result);
-    ROS_INFO("Path size: %f", srv.response.result.size());
+    if (srv.response.result.size() != 0) {
+        for (auto point : srv.response.result) {
+            std::cout << point.x << " " << point.y << std::endl; 
+        }
+    }
   }
   else
   {
