@@ -5,7 +5,11 @@ const std::vector<std::string> options::options_ = {"platform",
                                                     "loaded",
                                                     "robot_name",
                                                     "scan_topic",
-                                                    "map_name"
+                                                    "map_name",
+                                                    "x",
+                                                    "y",
+                                                    "theta",
+                                                    "update",
                                                     "help"};
 
 const std::vector<std::string> options::sections_ = {"platform.address",
@@ -46,7 +50,11 @@ boost::program_options::options_description options::description() const
         ("loaded, l", boost::program_options::value<bool>()->default_value(false), "Boolean to indicate if the icp file has been loaded previously")
         ("robot_name, r", boost::program_options::value<std::string>()->default_value("robot0"), "Name of the robot who is doing this SLAM")
         ("scan_topic, s", boost::program_options::value<std::string>()->default_value("/scan"), "Name of the topic which reads Laser data. /scan by default.")
-        ("icp, i", boost::program_options::value<std::string>()->default_value("config/icp.ini"), "icp configuration file");
+        ("icp, i", boost::program_options::value<std::string>()->default_value("config/icp.ini"), "icp configuration file")
+        ("x, x", boost::program_options::value<float>()->default_value(0), "x coordinate for initial position of the robot")
+        ("y, y", boost::program_options::value<float>()->default_value(0), "y coordinate for initial position of the robot")
+        ("theta, t", boost::program_options::value<float>()->default_value(0), "theta angle for initial position of the robot")
+        ("update, u", boost::program_options::value<bool>()->default_value(true), "update the map with the new laser readings");
     boost::program_options::options_description visible("-- ROS Noos ICP SLAM options --");
     visible.add_options()("help,h", "see help");
     visible.add(config_opt);
@@ -78,6 +86,18 @@ noos::cloud::platform options::read()
 		}
         else if (vm.count(key) && key == "map_name") {
 			icp_data_.map_name = vm[key].as<std::string>();
+		}
+        else if (vm.count(key) && key == "x") {
+			icp_data_.init_pose.x = vm[key].as<float>();
+        }
+		else if (vm.count(key) && key == "y") {
+			icp_data_.init_pose.y= vm[key].as<float>();
+        }
+		else if (vm.count(key) && key == "theta") {
+			icp_data_.init_pose.theta = vm[key].as<float>();
+		}
+        else if (vm.count(key) && key == "update") {
+			icp_data_.update = vm[key].as<bool>();
 		}
     }
     read_file(node, config_file);
