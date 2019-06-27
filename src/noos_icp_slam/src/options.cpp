@@ -51,6 +51,7 @@ boost::program_options::options_description options::description() const
         ("robot_name, r", boost::program_options::value<std::string>()->default_value("robot0"), "Name of the robot who is doing this SLAM")
         ("scan_topic, s", boost::program_options::value<std::string>()->default_value("/scan"), "Name of the topic which reads Laser data. /scan by default.")
         ("icp, i", boost::program_options::value<std::string>()->default_value("config/icp.ini"), "icp configuration file")
+        ("map_name, m", boost::program_options::value<std::string>()->default_value("icp"), "Name of the map which is going to be used/created in the cloud. icp by default.")
         ("x, x", boost::program_options::value<float>()->default_value(0), "x coordinate for initial position of the robot")
         ("y, y", boost::program_options::value<float>()->default_value(0), "y coordinate for initial position of the robot")
         ("theta, t", boost::program_options::value<float>()->default_value(0), "theta angle for initial position of the robot")
