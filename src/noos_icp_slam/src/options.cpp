@@ -82,7 +82,7 @@ noos::cloud::platform options::read()
 		else if (vm.count(key) && key == "robot_name") {
 			icp_data_.robot_name = vm[key].as<std::string>();
 		}
-		else if (vm.count(key) && key == "topic") {
+		else if (vm.count(key) && key == "scan_topic") {
 			icp_data_.topic = vm[key].as<std::string>();
 		}
         else if (vm.count(key) && key == "map_name") {

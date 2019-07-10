@@ -69,20 +69,24 @@ noos::object::laser laser_to_noos::operator()(const sensor_msgs::LaserScan::Cons
     // All the parameters of laser MUST to be filled
     // For more information @see noos::object::laser
     //
-    int count = scan->scan_time / scan->time_increment;
+    assert(scan);
+    if (scan->ranges.size() != scan->intensities.size()) 
+        throw std::runtime_error("Bad Laser data. Intensities and Ranges have different sizes");
+    
     auto now = std::chrono::system_clock::now();
     obs.timestamp = now.time_since_epoch().count();
-    obs.ranges.resize(count);
-    obs.intensities.resize(count);
-    obs.right_to_left = false;
-    obs.aperture = 2 * M_PIf;
-    obs.max_range = 6.0;
-    obs.std_error = 0.010f;
+    obs.ranges.resize(scan->ranges.size());
+    obs.intensities.resize(scan->intensities.size());
+    obs.right_to_left = true;
+    obs.aperture = scan->angle_max - scan->angle_min;
+    obs.max_range = scan->range_max;
+    obs.std_error = 0.020f;
     obs.pose3d = noos::object::pose<float>();
 
-    for (int i = 0; i < count; i++) {
+    for (size_t i = 0; i < scan->ranges.size(); i++) {
         obs.ranges[i] = scan->ranges[i];
         obs.intensities[i] = (int)scan->intensities[i];
     }
+
     return obs;
 }

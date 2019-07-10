@@ -108,7 +108,8 @@ void receive_map::callback(bool success)
 
 void receive_map::get_map()
 {
-    if (ros::Time::now().toSec() - t_savemap_ > 20) {
+    if (ros::Time::now().toSec() - t_savemap_ > 31) {
+        std::cout << "Get map called" << std::endl;
         callab_.send();
         t_savemap_ = ros::Time::now().toSec();
     }
