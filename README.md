@@ -97,12 +97,16 @@ That command will load the default parameters:
 - `map_name` = icp.png
 - `robot_name` = robot0
 - `scan_topic` = /scan 
+- `x` = 0 (init coordinate x of the robot) 
+- `y` = 0 (init coordinate y of the robot) 
+- `theta` = 0 (init coordinate theta of the robot) 
+- `update` = true (update the readings in the map. Use `false` if you built your map in a previous connection) 
 
 If you need to change one or more do the following:
 
 ```bash
 rosrun icp_slam icp_slam_node args --icp your_path/icp_file.ini --platform your_path/configuration_file.ini --loaded true
-                                   --map_name map --scan_topic scan --robot_name robot
+                                   --map_name map --scan_topic /scan --robot_name robot --x 0 --y 0 --theta 0 --update true
 ```
 
 ### Path planning
