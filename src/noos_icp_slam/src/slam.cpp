@@ -50,7 +50,7 @@ void slam::callback(noos::object::pose<float> pose3d)
     //
     //The position of the robot in the map is showed
     //
-    std::cout << pose3d;
+    //std::cout << pose3d;
     pub_.publish(noos_to_ros_pose()(pose3d, robot_name_));
     pub_2d_.publish(noos_to_ros_pose2d()(pose3d, robot_name_));
     //
