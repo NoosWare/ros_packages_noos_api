@@ -16,6 +16,8 @@ struct icp_args
     std::string topic;
     std::string map_name;
     bool loaded = false;
+    noos::object::pose2d<float> init_pose;
+    bool update = true;
 };
 
 /**

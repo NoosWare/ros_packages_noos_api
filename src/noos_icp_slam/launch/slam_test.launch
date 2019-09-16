@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- SICK ROS stuff:
+         WARNING: copied manually the launch from /opt/ros/kinetic/...
+                  because we need to pass parameters to those nodes,
+                  such as the IP, range, etc...
+    -->
+    <param name="robot_description" command="$(find xacro)/xacro.py '$(find sick_tim)/urdf/example.urdf.xacro'" /> 
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+    
+    <node name="sick_tim551_2050001" pkg="sick_tim" type="sick_tim551_2050001" respawn="false" output="log">
+        <param name="range_min" type="double" value="0.05" />
+        <param name="range_max" type="double" value="10.0" />
+        <param name="hostname" type="string" value="192.168.1.3" />
+        <param name="port" type="string" value="2111" />
+        <param name="timelimit" type="int" value="1" />
+        <param name="frame_id" type="str" value="sick561" />
+    </node>
+
+</launch>

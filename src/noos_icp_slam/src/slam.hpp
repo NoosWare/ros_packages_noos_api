@@ -71,6 +71,12 @@ private:
     std::string robot_name_;
     //map name
     std::string map_name_;
+    //bool to send this message once
+    std::atomic<bool> once_ = {false};
+    //init pose of the robot in the map
+    noos::object::pose2d<float> init_;
+    // bool for updating map
+    std::atomic<bool> update_ = {true};
 
 };
 

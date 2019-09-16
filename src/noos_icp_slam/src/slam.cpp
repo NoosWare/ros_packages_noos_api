@@ -11,7 +11,9 @@ slam::slam(noos::cloud::platform plat,
   pub_2d_(n.advertise<icp_slam::pose2d>("pose2d", 1000)),
   map_(plat, args.map_name),
   robot_name_(args.robot_name),
-  map_name_(args.map_name)
+  map_name_(args.map_name),
+  init_(args.init_pose),
+  update_(args.update)
 {}
 
 void slam::read_laser(const sensor_msgs::LaserScan::ConstPtr & scan)
@@ -41,7 +43,13 @@ void slam::process_data(noos::object::laser & obs)
     //
     //The object of the class callable is updated with the new laser data.
     //
-    callab_.object = noos::cloud::icp_slam(map_name_, "icp.ini", obs); //map, config, laser
+    if (!once_) {
+        callab_.object = noos::cloud::icp_slam(map_name_, "icp.ini", obs, init_, update_); //map, config, laser, init pose, update map
+        once_ = true;
+    }
+    else {
+        callab_.object = noos::cloud::icp_slam(obs); //we only need the observation
+    }
     callab_.send();
 }
 
@@ -100,7 +108,8 @@ void receive_map::callback(bool success)
 
 void receive_map::get_map()
 {
-    if (ros::Time::now().toSec() - t_savemap_ > 20) {
+    if (ros::Time::now().toSec() - t_savemap_ > 31) {
+        std::cout << "Get map called" << std::endl;
         callab_.send();
         t_savemap_ = ros::Time::now().toSec();
     }

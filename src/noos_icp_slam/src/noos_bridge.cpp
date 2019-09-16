@@ -70,9 +70,9 @@ noos::object::laser laser_to_noos::operator()(const sensor_msgs::LaserScan::Cons
     // For more information @see noos::object::laser
     //
     assert(scan);
-    if (scan->ranges.size() != scan->intensities.size())
+    if (scan->ranges.size() != scan->intensities.size()) 
         throw std::runtime_error("Bad Laser data. Intensities and Ranges have different sizes");
-
+    
     auto now = std::chrono::system_clock::now();
     obs.timestamp = now.time_since_epoch().count();
     obs.ranges.resize(scan->ranges.size());
